@@ -24,23 +24,23 @@ variable "application" {
 
 variable "vpc_cidr" {
   description = "VPC CIDR"
-  type        = "string"
+  type        = string
 }
 
 variable "private_subnet_cidrs" {
   description = "Private subnet  - CIDR"
-  type        = "list"
+  type        = list
 }
 variable "public_subnet_cidrs" {
   description = "Private subnet  - CIDR"
-  type        = "list"
+  type        = list
 }
 
 # MSK Cluster
 
 variable "msk_cluster_version" {
   type    = string
-  default = "2.4.1"
+  default = "2.4.1.1"
 }
 
 variable "broker_nodes" {
@@ -57,11 +57,28 @@ variable "msk_ebs_volume_size" {
 }
 
 variable "encryption_type" {
-    type = string
-    default = "TLS_PLAINTEXT"
+  type    = string
+  default = "TLS_PLAINTEXT"
 }
 
 variable "monitoring_type" {
-    type = string
-    default = "PER_BROKER"
+  type    = string
+  default = "PER_BROKER"
+}
+
+# MSK Client
+
+variable "key_name" {
+  type    = string
+  default = "MSK-Keypair"
+}
+
+variable "msk_instance_type" {
+  type    = string
+  default = "m5.large"
+}
+
+variable "msk_ami" {
+  type    = string
+  default = "ami-04d29b6f966df1537"
 }
