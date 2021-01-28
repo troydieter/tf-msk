@@ -32,7 +32,7 @@ EOF
 resource "aws_iam_role_policy_attachment" "MSK-client-IAM-role" {
   for_each   = var.mskclientiamattachments
   policy_arn = each.value
-  role       = aws_iam_role.MSKClientIAM_Role.*.name
+  role       = aws_iam_role.MSKClientIAM_Role.name
 }
 
 resource "aws_instance" "msk-client" {
