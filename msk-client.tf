@@ -39,7 +39,7 @@ resource "aws_instance" "msk-client" {
   ami                    = var.msk_ami
   instance_type          = var.msk_instance_type
   key_name               = var.key_name
-  vpc_security_group_ids = [aws_security_group.KafkaClientInstanceSG.id]
+  vpc_security_group_ids = [aws_security_group.MSKClientInstanceSG.id]
   user_data              = file("./kafka-client-msk.sh")
   subnet_id              = aws_subnet.private_subnet[1].id
   iam_instance_profile   = aws_iam_instance_profile.MSKClientIAM_Profile.name

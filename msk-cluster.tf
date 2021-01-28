@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
-  name = "msk_cluster_cloudwatch_group-${random_uuid.randuuid.result}"
+  name = "msk_cluster_cloudwatch_group-${random_id.rando.hex}"
 }
 
 resource "aws_msk_configuration" "msk_cluster_config" {
@@ -25,7 +25,7 @@ resource "aws_msk_cluster" "msk_cluster" {
       "${aws_subnet.private_subnet.1.id}",
       "${aws_subnet.private_subnet.2.id}"
     ]
-    security_groups = [aws_security_group.KafkaClusterSG.id]
+    security_groups = [aws_security_group.MSKClusterSG.id]
   }
 
   client_authentication {
