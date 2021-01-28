@@ -3,8 +3,8 @@ resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
 }
 
 resource "aws_msk_configuration" "msk_cluster_config" {
-  kafka_versions = [var.msk_cluster_version]
-  name           = "msk-${lower(var.environment)}-cluster-cfg-${random_uuid.randuuid.result}"
+  kafka_versions    = [var.msk_cluster_version]
+  name              = "msk-${lower(var.environment)}-cluster-cfg-${random_uuid.randuuid.result}"
   server_properties = <<PROPERTIES
 auto.create.topics.enable = true
 delete.topic.enable = true
@@ -28,18 +28,16 @@ resource "aws_msk_cluster" "msk_cluster" {
     security_groups = [aws_security_group.KafkaClusterSG.id]
   }
 
-  /*
   client_authentication {
     tls {
       certificate_authority_arns = [aws_acmpca_certificate_authority.pca.arn]
     }
   }
-*/
 
-configuration_info {
-  arn = aws_msk_configuration.msk_cluster_config.arn
-  revision = 1
-}
+  configuration_info {
+    arn      = aws_msk_configuration.msk_cluster_config.arn
+    revision = 1
+  }
   encryption_info {
     encryption_in_transit {
       client_broker = var.encryption_type
