@@ -3,8 +3,8 @@ resource "aws_vpc" "msk_vpc" {
   tags = merge(
     local.common-tags,
     map(
-      "Name", "msk-${lower(var.environment)}-vpc",
-      "Description", "VPC for creating MSK resources",
+      "Name", "msk-${lower(var.environment)}-vpc-${random_id.rando.hex}",
+      "Description", "MSK VPC",
     )
   )
 }

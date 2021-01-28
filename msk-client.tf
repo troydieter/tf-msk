@@ -1,10 +1,14 @@
-resource "aws_iam_instance_profile" "KafkaClientIAM_Profile" {
-  name = "KafkaClientIAM_profile"
-  role = aws_iam_role.KafkaClientIAM_Role.name
+resource "random_id" "rando" {
+  byte_length = 2
 }
 
-resource "aws_iam_role" "KafkaClientIAM_Role" {
-  name = "KafkaClientIAM_Role"
+resource "aws_iam_instance_profile" "MSKClientIAM_Profile" {
+  name = "MSKClientIAM_profile-${random_id.rando.hex}"
+  role = aws_iam_role.MSKClientIAM_Role.name
+}
+
+resource "aws_iam_role" "MSKClientIAM_Role" {
+  name = "MSKClientIAM_Role-${random_id.rando.hex}"
   path = "/"
 
 
@@ -25,24 +29,20 @@ resource "aws_iam_role" "KafkaClientIAM_Role" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "Kafka-Client-IAM-role-att1" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonMSKFullAccess"
-  role       = aws_iam_role.KafkaClientIAM_Role.name
+resource "aws_iam_role_policy_attachment" "MSK-client-IAM-role" {
+  for_each   = var.mskclientiamattachments
+  policy_arn = each.value
+  role       = aws_iam_role.MSKClientIAM_Role.*.name
 }
 
-resource "aws_iam_role_policy_attachment" "Kafka-Client-IAM-role-att2" {
-  policy_arn = "arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess"
-  role       = aws_iam_role.KafkaClientIAM_Role.name
-}
-
-resource "aws_instance" "Kafka-Client-EC2-Instance" {
+resource "aws_instance" "msk-client" {
   ami                    = var.msk_ami
   instance_type          = var.msk_instance_type
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.KafkaClientInstanceSG.id]
   user_data              = file("./kafka-client-msk.sh")
   subnet_id              = aws_subnet.private_subnet[1].id
-  iam_instance_profile   = aws_iam_instance_profile.KafkaClientIAM_Profile.name
+  iam_instance_profile   = aws_iam_instance_profile.MSKClientIAM_Profile.name
   ebs_block_device {
     device_name           = "/dev/xvda"
     volume_size           = 100
@@ -55,12 +55,12 @@ resource "aws_instance" "Kafka-Client-EC2-Instance" {
   tags = merge(
     local.common-tags,
     map(
-      "Name", "Kafka-Client-EC2-Instance"
+      "Name", "msk-client-${random_id.rando.hex}"
     )
   )
 }
 
 output "IP" {
-  value       = aws_instance.Kafka-Client-EC2-Instance.private_ip
-  description = "The private IP address of the Kafka-Client-EC2-Instance instance."
+  value       = aws_instance.msk-client.private_ip
+  description = "The private IP address of the msk-client deployed."
 }

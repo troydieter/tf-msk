@@ -82,3 +82,7 @@ variable "msk_ami" {
   type    = string
   default = "ami-04d29b6f966df1537"
 }
+
+variable "mskclientiamattachments" {
+  type = map
+}

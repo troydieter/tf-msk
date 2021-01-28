@@ -1,4 +1,3 @@
-/*
 resource "aws_acmpca_certificate_authority" "pca" {
   certificate_authority_configuration {
     key_algorithm     = "RSA_4096"
@@ -9,11 +8,3 @@ resource "aws_acmpca_certificate_authority" "pca" {
     }
   }
 }
-*/
-
-/*
-resource "aws_iam_role_policy_attachment" "Kafka-Client-IAM-role-att3" {
-  policy_arn = "arn:aws:iam::aws:policy/AWSCertificateManagerPrivateCAPrivilegedUser"
-  role       = "${aws_iam_role.KafkaClientIAM_Role.name}"
-}
-*/

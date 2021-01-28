@@ -4,7 +4,7 @@ resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
 
 resource "aws_msk_configuration" "msk_cluster_config" {
   kafka_versions    = [var.msk_cluster_version]
-  name              = "msk-${lower(var.environment)}-cluster-cfg-${random_uuid.randuuid.result}"
+  name              = "msk-${lower(var.environment)}-cluster-cfg-${random_id.rando.hex}"
   server_properties = <<PROPERTIES
 auto.create.topics.enable = true
 delete.topic.enable = true
@@ -13,7 +13,7 @@ PROPERTIES
 
 resource "aws_msk_cluster" "msk_cluster" {
   count                  = length(var.private_subnet_cidrs)
-  cluster_name           = "msk-${lower(var.environment)}-cluster-${random_uuid.randuuid.result}"
+  cluster_name           = "msk-${lower(var.environment)}-cluster-${random_id.rando.hex}"
   kafka_version          = var.msk_cluster_version
   number_of_broker_nodes = var.broker_nodes
 
@@ -58,7 +58,7 @@ resource "aws_msk_cluster" "msk_cluster" {
   tags = merge(
     local.common-tags,
     map(
-      "Name", "msk-${lower(var.environment)}-cluster"
+      "Name", "msk-${lower(var.environment)}-cluster-${random_id.rando.hex}"
     )
   )
 }

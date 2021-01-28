@@ -6,3 +6,8 @@ vpc_cidr             = "192.168.8.0/21"
 private_subnet_cidrs = ["192.168.8.0/24", "192.168.10.0/24", "192.168.12.0/24"]
 public_subnet_cidrs  = ["192.168.9.0/26", "192.168.11.0/26", "192.168.13.0/26"]
 
+mskclientiamattachments = {
+  1 = "arn:aws:iam::aws:policy/AmazonMSKFullAccess"
+  2 = "arn:aws:iam::aws:policy/AWSCloudFormationReadOnlyAccess"
+  3 = "arn:aws:iam::aws:policy/AWSCertificateManagerPrivateCAPrivilegedUser"
+}
