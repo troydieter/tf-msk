@@ -1,5 +1,7 @@
 resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
   name = "msk_cluster_cloudwatch_group-${random_id.rando.hex}"
+  retention_in_days = 90
+  tags = local.common-tags
 }
 
 resource "aws_msk_configuration" "msk_cluster_config" {

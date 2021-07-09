@@ -12,6 +12,8 @@ resource "aws_internet_gateway" "main-igw" {
 
 ########### NAT ##############
 resource "aws_eip" "nat" {
+  vpc = true
+  tags = local.common-tags
 }
 
 resource "aws_nat_gateway" "main-natgw" {

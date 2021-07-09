@@ -7,4 +7,5 @@ resource "aws_acmpca_certificate_authority" "pca" {
       common_name = "pca.${lower(var.environment)}.example.com"
     }
   }
+  tags = local.common-tags
 }

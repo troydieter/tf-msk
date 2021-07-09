@@ -27,6 +27,7 @@ resource "aws_iam_role" "MSKClientIAM_Role" {
     ]
 }
 EOF
+tags = local.common-tags
 }
 
 resource "aws_iam_role_policy_attachment" "MSK-client-IAM-role" {
@@ -58,6 +59,11 @@ resource "aws_instance" "msk-client" {
       "Name", "msk-client-${random_id.rando.hex}"
     )
   )
+  metadata_options {
+    http_endpoint = "disabled"
+  }
+  ebs_optimized = true
+  monitoring = true
 }
 
 output "IP" {
