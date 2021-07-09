@@ -18,6 +18,7 @@ resource "aws_kms_key" "pca-kms" {
       ]
 }
 EOF
+tags = local.common-tags
 }
 
 resource "aws_kms_alias" "pca-kims-alias" {
@@ -48,6 +49,7 @@ resource "aws_kms_key" "msk-kms-key" {
       ]
 }
 EOF
+tags = local.common-tags
 }
 
 resource "aws_kms_alias" "msk-kms-alias" {
